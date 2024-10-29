@@ -1,5 +1,6 @@
 //! > **Apply windowing and tapering to the signal**
 use std::f64::consts::PI;
+use std::process::exit;
 
 pub struct TaperSpec {
     pub taper_type: String,
@@ -62,4 +63,15 @@ pub fn apply_linear_taper(samples: &mut [f64], taper_size: usize) {
 
     apply_linear_fade_in(samples, taper_size);
     apply_linear_fade_out(samples, taper_size);
+}
+
+pub fn apply_taper(samples: &mut [f64], spec: &TaperSpec) {
+    match spec.taper_type.as_str() {
+        "linear" => {apply_linear_taper(samples, spec.taper_length)},
+        "hann" => {apply_hanning_taper(samples, spec.taper_length)},
+        _ => {
+            eprintln!("Error: unknown taper type");
+            exit(1);
+        }
+    }
 }
