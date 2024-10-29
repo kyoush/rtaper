@@ -1,6 +1,11 @@
 //! > **Apply windowing and tapering to the signal**
 use std::f64::consts::PI;
 
+pub struct TaperSpec {
+    pub taper_type: String,
+    pub taper_length: usize,
+}
+
 pub fn apply_linear_fade_in (samples: &mut [f64], taper_size: usize) {
     for i in 0..taper_size {
         let factor = i as f64 / taper_size as f64;
