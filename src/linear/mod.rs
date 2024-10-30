@@ -1,3 +1,14 @@
+//! This module provides functions for applying linear tapers to signal samples.
+//!
+//! # Functions
+//!
+//! - [`apply_linear_taper`]: Applies a linear taper to the provided samples.
+
+/// Applies a linear taper to the provided signal samples.
+///
+/// # Parameters
+/// - `samples`: The signal samples to apply the taper to.
+/// - `taper_length`: The length of the taper in samples.
 
 pub fn apply_linear_fade_in (samples: &mut [f64], taper_size: usize) {
     for i in 0..taper_size {
@@ -15,7 +26,7 @@ pub fn apply_linear_fade_out (samples: &mut [f64], taper_size: usize) {
     }
 }
 
-/// Apply linear tapering at the start and end of the signal.
+/// Functions and utilities for applying a linear taper to signal samples.
 pub fn apply_linear_taper(samples: &mut [f64], taper_size: usize) {
     let total_samples = samples.len();
     let taper_size = taper_size.min(total_samples / 2);

@@ -1,16 +1,21 @@
+//! This module provides functions for applying Hann tapers to signal samples.
+//!
+//! # Functions
+//!
+//! - [`apply_hanning_taper`]: Applies a Hann taper to the provided samples.
+
+/// Applies a Hann taper to the provided signal samples.
+///
+/// # Parameters
+/// - `samples`: The signal samples to apply the taper to.
+/// - `taper_length`: The length of the taper in samples.
+
 use std::f64::consts::PI;
 
-// pub fn apply_hanning_fade_in(samples: &mut [f64], length: usize) {
-//     let n = length.min(samples.len());
-
-//     let window: Vec<f64> = (0..n)
-//         .map(|i| 0.5 * (1.0 - (2.0 * PI * i as f64 / (n - 1) as f64).cos()))
-//         .collect();
-
-//     for i in 0..(n / 2) {
-//         samples[samples.len() - (n / 2) + i] *= window[i + n / 2];
-//     }
-// }
+#[allow(unused)]
+pub fn apply_hanning_fade_in(samples: &mut [f64], length: usize) {
+    // TODO
+}
 
 pub fn apply_hanning_fade_out(samples: &mut [f64], length: usize) {
     let n = length.min(samples.len());
