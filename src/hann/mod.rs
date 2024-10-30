@@ -12,20 +12,31 @@
 
 use std::f64::consts::PI;
 
-#[allow(unused)]
-pub fn apply_hanning_fade_in(samples: &mut [f64], length: usize) {
-    // TODO
+fn hann(x: f64, length: usize) -> f64{
+    0.5 * (1.0 - (2.0 * PI * x / length as f64).cos())
 }
 
-pub fn apply_hanning_fade_out(samples: &mut [f64], length: usize) {
-    let n = length.min(samples.len());
+pub fn apply_hanning_fade_in(samples: &mut [f64], taper_size: usize) {
+    let window_size = taper_size * 2;
 
-    let window: Vec<f64> = (0..n)
-        .map(|i| 0.5 * (1.0 - (2.0 * PI * i as f64 / (n - 1) as f64).cos()))
+    let window: Vec<f64> = (0..window_size)
+        .map(|i| hann(i as f64, window_size - 1))
         .collect();
 
-    for i in 0..(n / 2) {
-        samples[samples.len() - (n / 2) + i] *= window[i + n / 2];
+    for i in 0..taper_size {
+        samples[i] *= window[i];
+    }
+}
+
+pub fn apply_hanning_fade_out(samples: &mut [f64], taper_size: usize) {
+    let window_size = taper_size * 2;
+
+    let window: Vec<f64> = (0..window_size)
+        .map(|i| hann(i as f64, window_size - 1))
+        .collect();
+
+    for i in 0..taper_size {
+        samples[samples.len() - taper_size + i] *= window[taper_size + i];
     }
 }
 
@@ -34,6 +45,6 @@ pub fn apply_hanning_taper(samples: &mut [f64], taper_size: usize) {
     let total_samples = samples.len();
     let taper_size = taper_size.min(total_samples / 2);
 
-    // apply_hanning_fade_in(samples, taper_size);
+    apply_hanning_fade_in(samples, taper_size);
     apply_hanning_fade_out(samples, taper_size);
 }
