@@ -22,6 +22,7 @@ pub enum WindowType {
     Linear,
     Hann,
     Cosine,
+    Blackman,
 }
 
 /// Specifies the type and length of the taper to be applied.

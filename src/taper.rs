@@ -49,6 +49,7 @@ pub fn do_taper(
         WindowType::Linear => super::window::linear,
         WindowType::Hann   => super::window::hann,
         WindowType::Cosine => super::window::cosine,
+        WindowType::Blackman => super::window::blackman,
     };
 
     match fade_type {
