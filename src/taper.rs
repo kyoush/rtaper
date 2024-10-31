@@ -48,7 +48,7 @@ pub fn do_taper(
     let window_func: fn(i32, usize) -> f64 = match spec.taper_type {
         WindowType::Linear => super::window::linear,
         WindowType::Hann   => super::window::hann,
-        _ => |_, _| 1.0, // @todo Cosine
+        WindowType::Cosine => super::window::cosine,
     };
 
     match fade_type {

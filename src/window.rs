@@ -11,3 +11,7 @@ pub fn linear(x: i32, length: usize) -> f64 {
 pub fn hann(x: i32, length: usize) -> f64 {
     0.5 * (1.0 - (2.0 * PI * x as f64 / length as f64).cos())
 }
+
+pub fn cosine(x: i32, length: usize) -> f64 {
+    (((x as f64 / length as f64) * 2.0 * PI + PI).cos() + 1.0) / 2.0
+}
