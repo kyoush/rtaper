@@ -13,7 +13,12 @@
 
 // @todo fn cos_win(x: f64, length: usize) -> f64 {}
 
+use std::error::Error;
 use crate::{WindowType, FadeType, TaperSpec};
+
+pub fn is_taper_length_zero(spec: &TaperSpec) -> bool {
+    spec.taper_length == 0
+}
 
 fn do_apply_taper_fade_in(samples: &mut [f64], f: fn(i32, usize) -> f64, taper_size: usize) {
     let window_size = taper_size * 2;
@@ -41,7 +46,7 @@ pub fn do_taper(
     samples: &mut [f64],
     spec: &TaperSpec,
     fade_type: FadeType,
-) -> Result<(), String> {
+) -> Result<(), Box<dyn Error>> {
     let total_samples = samples.len();
     let taper_size = spec.taper_length.min(total_samples / 2);
 

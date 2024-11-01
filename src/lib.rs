@@ -34,11 +34,19 @@ pub struct TaperSpec {
 }
 
 pub fn apply_taper_fade_in(samples: &mut[f64], spec: &TaperSpec) -> Result<(), Box<dyn Error>> {
+    if taper::is_taper_length_zero(spec) {
+        return Ok(())
+    }
+
     taper::do_taper(samples, &spec, FadeType::FadeIn)?;
     Ok(())
 }
 
 pub fn apply_taper_fade_out(samples: &mut[f64], spec: &TaperSpec) -> Result<(), Box<dyn Error>> {
+    if taper::is_taper_length_zero(spec) {
+        return Ok(())
+    }
+
     taper::do_taper(samples, &spec, FadeType::FadeOut)?;
     Ok(())
 }
@@ -63,6 +71,10 @@ pub fn apply_taper_fade_out(samples: &mut[f64], spec: &TaperSpec) -> Result<(), 
 /// apply_taper(&mut samples, &spec).unwrap();
 /// ```
 pub fn apply_taper_both(samples: &mut [f64], spec: &TaperSpec) -> Result<(), Box<dyn Error>> {
+    if taper::is_taper_length_zero(spec) {
+        return Ok(())
+    }
+
     apply_taper_fade_in(samples, spec)?;
     apply_taper_fade_out(samples, spec)?;
     Ok(())
