@@ -48,7 +48,12 @@ pub fn do_taper(
     fade_type: FadeType,
 ) -> Result<(), Box<dyn Error>> {
     let total_samples = samples.len();
-    let taper_size = spec.taper_length.min(total_samples / 2);
+    let taper_size = if spec.taper_length < total_samples / 2 {
+        spec.taper_length.min(total_samples / 2)
+    }else {
+        // @todo このケースでは、エラーにするのではなく信号全体に信号長のテーパーをかけるようにする
+        return Err(Box::from("error: taper_length is too big"));
+    };
 
     let window_func: fn(i32, usize) -> f64 = match spec.taper_type {
         WindowType::Linear => super::window::linear,
